@@ -13,7 +13,7 @@ public class AuthorControllerTest {
     private GraphQlTester graphQlTester;
 
     @Test
-    void bookById_inline() {
+    void addAuthor() {
         final String document = """
                 mutation addAuthor {
                     addAuthor(
