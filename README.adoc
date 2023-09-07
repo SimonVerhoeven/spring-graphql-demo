@@ -1,0 +1,20 @@
+= Spring GraphQL - demo
+:toc:
+:toc-placement:
+:toclevels: 3
+:icons: font
+
+== Introduction
+
+In this demo we'll take a look at how we can use Spring GraphQL in our Java applications.
+GraphQL is a query language (hence the QL) that in conjunction with a framework such as `Spring GraphQL` can be used to efficiently manage our data, and even reuse existing services.
+
+It has 2 core concepts:
+
+. queries: used for to define which data should be fetched, and which fields thereof should be included
+. mutations: used to manage our dataset
+
+== References
+
+* https://spring.io/projects/spring-graphql[Spring for GraphQL project]
+* https://github.com/SimonVerhoeven/spring-graphql-demo[Demo repository]
