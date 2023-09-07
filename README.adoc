@@ -14,6 +14,30 @@ It has 2 core concepts:
 . queries: used for to define which data should be fetched, and which fields thereof should be included
 . mutations: used to manage our dataset
 
+== (Dis)advantages
+
+GraphQL has its advantages, and disadvantages over REST, and one can even use both in the sample application.
+
+Advantages:
+
+* flexible: the client can specify the required fields
+* higher decoupling from API changes
+* less expensive operations (reduced payload size, and data can be aggregated so less round trips)
+* high discoverability given the APIs are introspectable, so clients can query the schema to find the available types & fields
+* real-time data using subscriptions, without the need for polling
+
+Disadvantages:
+
+* no native file upload support
+* no native support for web caching
+* harder to cache given its flexible nature
+* the flexible nature can also lead to complexity in managing the schema, and efficient query resolution
+
+In case of data flexibility is needed/over-under-fetching is an issue/real time data is needed/mobile use-cases GraphQL is a good fit.
+However, if the data structure is stable, caching is critical, resource-based models or simple CRUD calls there's certainly nothing wrong with rest.
+
+At the end of the day you need to evaluate which fits your use-cases the best, and maybe even use a mix of both.
+
 == References
 
 * https://spring.io/projects/spring-graphql[Spring for GraphQL project]
