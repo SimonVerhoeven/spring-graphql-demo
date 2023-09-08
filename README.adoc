@@ -14,6 +14,55 @@ It has 2 core concepts:
 . queries: used for to define which data should be fetched, and which fields thereof should be included
 . mutations: used to manage our dataset
 
+It's an alternative to REST, SOAP, or gRPC.
+
+Feel free to check out the code from this repository, to more easily follow along.
+
+== Setup
+
+To get started we just need the following dependencies in our pom.xml:
+
+[code,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-graphql</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.graphql</groupId>
+        <artifactId>spring-graphql-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+----
+
+[NOTE]
+====
+We're using Spring MVC here, but we could also use websocket/webflux/rsocket here (see for reference: https://docs.spring.io/spring-boot/docs/current/reference/html/web.html#web.graphql[possible starters])
+====
+
+We'll also be enabling the graphical interactive GraphQL IDE (https://github.com/graphql/graphiql[GraphiQL]), by adding:
+[code]
+----
+spring.graphql.graphiql.enabled=true
+----
+
+to our `application.properties`.
+
+This allows us to easily interact with & develop GraphQL APIs.
+
+image::raw/graphiql.png[]
+
 == (Dis)advantages
 
 GraphQL has its advantages, and disadvantages over REST, and one can even use both in the sample application.
