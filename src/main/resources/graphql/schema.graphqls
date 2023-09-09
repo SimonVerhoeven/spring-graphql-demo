@@ -8,17 +8,17 @@ type Mutation {
 
 type Book {
   id: ID
-  name: String
+  name: String!
   pageCount: Int
   summary: String
   publicationDate: String
-  author: Author
+  author: Author!
 }
 
 type Author {
   id: ID
-  firstName: String
-  lastName: String
-  shortBio: String
-  linkedinUrl: String
+  firstName: String!
+  lastName: String!
+  shortBio: String!
+  linkedinUrl: String!
 }
