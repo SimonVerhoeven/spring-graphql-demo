@@ -3,6 +3,7 @@
 :toc-placement:
 :toclevels: 3
 :icons: font
+:note-caption: :information_source:
 
 == Introduction
 
