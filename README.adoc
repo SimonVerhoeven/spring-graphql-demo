@@ -15,8 +15,14 @@ It has 2 core concepts:
 . mutations: used to manage our dataset
 
 It's an alternative to REST, SOAP, or gRPC, and supports calls over HTTP, WebSocket and RSocket.
+We can use it to query & mutate our data, and in case of Spring Webflux/WebSocket/RSocket to set up subscriptions.
 
-Feel free to check out the code from this repository, to more easily follow along.
+[NOTE]
+====
+Spring GraphQL is the successor of https://github.com/graphql-java/graphql-java-spring[GraphQL Java Spring]
+====
+
+Feel free to check out the code from this repository to more easily follow along.
 
 == Setup
 
@@ -31,7 +37,7 @@ To get started we just need the following dependencies in our pom.xml:
     </dependency>
     <dependency>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -48,7 +54,7 @@ To get started we just need the following dependencies in our pom.xml:
 
 [NOTE]
 ====
-We're using Spring MVC here, but we could also use websocket/webflux/rsocket here (see for reference: https://docs.spring.io/spring-boot/docs/current/reference/html/web.html#web.graphql[possible starters])
+We're using Spring MVC here, but we could also use web/webflux/rsocket here (see for reference: https://docs.spring.io/spring-boot/docs/current/reference/html/web.html#web.graphql[possible starters])
 ====
 
 We'll also be enabling the graphical interactive GraphQL IDE (https://github.com/graphql/graphiql[GraphiQL]), by adding:
@@ -62,6 +68,17 @@ to our `application.properties`.
 This allows us to easily interact with & develop GraphQL APIs.
 
 image::raw/graphiql.png[]
+
+Using the default http://localhost:8080/graphiql[graphiql] path.
+
+[NOTE]
+====
+This can be adapted by configuring `spring.graphql.path`
+====
+
+== Controller configuration
+
+Using
 
 == (Dis)advantages
 
