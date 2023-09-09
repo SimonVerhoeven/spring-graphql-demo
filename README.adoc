@@ -14,7 +14,7 @@ It has 2 core concepts:
 . queries: used for to define which data should be fetched, and which fields thereof should be included
 . mutations: used to manage our dataset
 
-It's an alternative to REST, SOAP, or gRPC.
+It's an alternative to REST, SOAP, or gRPC, and supports calls over HTTP, WebSocket and RSocket.
 
 Feel free to check out the code from this repository, to more easily follow along.
 
@@ -86,6 +86,10 @@ In case of data flexibility is needed/over-under-fetching is an issue/real time 
 However, if the data structure is stable, caching is critical, resource-based models or simple CRUD calls there's certainly nothing wrong with rest.
 
 At the end of the day you need to evaluate which fits your use-cases the best, and maybe even use a mix of both.
+
+== Extra
+
+Whilst the GraphQL protocol is focused on textual data, there is the informal https://github.com/jaydenseric/graphql-multipart-request-spec[graphql-multipart-request-spec] which allows file upload over HTTP. Keep in mind that this does lead to certain issues as documented on the https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/[Appolo GraphQL blog]. If you would like to use the spec in your application you can do so using: https://github.com/nkonev/multipart-spring-graphql[multipart-spring-graphql]
 
 == References
 
