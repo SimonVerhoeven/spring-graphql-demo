@@ -152,6 +152,27 @@ public Book bookById(@Argument String id) {
 }
 ----
 
+This makes use of the implicit mapping.
+
+If we add the following to our schema file:
+
+[code,graphql]
+----
+authorById(id: ID): Author
+----
+
+We can set up an explicit mapping using the following, in case we don't want to call our function `authorById`
+
+[code,java]
+----
+@QueryMapping("authorById")
+public Author findAuthor(@Argument String id) {
+    return Author.getById(id);
+}
+----
+
+Note that here we've explicitly added `authorById` to our `@QueryMapping`
+
 
 == (Dis)advantages
 

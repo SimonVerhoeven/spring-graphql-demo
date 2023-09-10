@@ -13,6 +13,33 @@ public class AuthorControllerTest {
     private GraphQlTester graphQlTester;
 
     @Test
+    void authorById_inline() {
+        final String document = """
+               {
+                 authorById(id: "a535fe2f-7d06-41bd-bbff-c802e42a8b06") {
+                   id
+                   firstName
+                   lastName
+                   shortBio
+                   linkedinUrl
+                 }
+               }""";
+
+        this.graphQlTester
+                .document(document)
+                .execute()
+                .path("authorById")
+                .matchesJson("""
+                                            {
+                                              "id": "a535fe2f-7d06-41bd-bbff-c802e42a8b06",
+                                              "firstName": "Robert",
+                                              "lastName": "Martin",
+                                              "shortBio": "Author of 'Clean Code.'",
+                                              "linkedinUrl": "https://linkedin.com/in/robertmartin"
+                                            }""");
+    }
+
+    @Test
     void addAuthor() {
         final String document = """
                 mutation addAuthor {
