@@ -98,9 +98,6 @@ Below that we can see our `Book` and `Author` type with their fields. In this ca
 
 More information on how to define a `Schema` can be found on the https://graphql.org/learn/schema/[GraphQL schema] page.
 
-
-
-
 [NOTE]
 ====
 * We can change the supported file type(s) by changing: `spring.graphql.schema.file-extensions`
@@ -131,7 +128,30 @@ This can be adapted by configuring `spring.graphql.path`
 
 == Controller configuration
 
-Using
+Spring for GraphCL allows us to define handler methods using annotations in `@Controller` components.
+The handler methods are registered as `DataFetcher` s through `RuntimeWiring.builder`.
+Since we're using the Spring boot starter, we don't need to do anything special, but if you're not you'll need to add this `RuntimeWiringConfiguration` to `GraphQLSource.Builder`. (https://docs.spring.io/spring-boot/docs/3.1.1/reference/html/web.html#web.graphql.runtimewiring[see for reference])
+
+We can use `@SchemaMapping` to define our handler methods & specify the type name, and field name. or leave it out in which case it'll use the simple class name of the source object & the method nome.
+
+However, we can also use the meta annotations to make our life a bit easier, since these preset the typeName for us.
+
+These are:
+
+* `@QueryMapping`
+* `@MutationMapping`
+* `SubscriptionMapping`
+
+For example for our early book query we can add:
+
+[code,java]
+----
+@QueryMapping
+public Book bookById(@Argument String id) {
+    return Book.getById(id);
+}
+----
+
 
 == (Dis)advantages
 
