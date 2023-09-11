@@ -15,8 +15,8 @@ public class AuthorController {
         return Author.getById(id);
     }
 
-    @MutationMapping
-    public Author addAuthor(
+    @MutationMapping("addAuthor")
+    public Author createAuthor(
             @Argument String firstName,
             @Argument String lastName,
             @Argument String shortBio

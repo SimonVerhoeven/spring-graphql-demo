@@ -188,6 +188,46 @@ public Author findAuthor(@Argument String id) {
 
 Note that here we've explicitly added `authorById` to our `@QueryMapping`
 
+While both approaches are valid, the value annotation does encourage a higher level of abstraction, and leaves us free to rename our method names without breaking the integration.
+
+=== Mutations
+
+We use `@MutationMapping` for these, and jut like with `@QueryMapping` our method name/annotation value must match the operation name.
+
+We'd love to be able to add some of our favourite authors, so we'll add the following to our `schema.graphqls`
+
+[code,graphql
+----
+type Mutation {
+  addAuthor(firstName: String!, lastName: String!, shortBio: String!): Author
+}
+----
+
+As you can see, we expect the first name, last name & a short bio for the Author to be passed in, and we'll get an `Author` response.
+
+This aligns with:
+
+[code,java]
+----
+@MutationMapping("addAuthor")
+public Author createAuthor(
+        @Argument String firstName,
+        @Argument String lastName,
+        @Argument String shortBio
+
+) {
+    Author author = new Author(UUID.randomUUID().toString(), firstName, lastName, shortBio, "");
+    Author.addAuthor(author);
+    return author;
+}
+----
+
+As you can see, our inputs are annotated with `@Argument`.
+
+[NOTE]
+====
+`@Argument` does not have a `required` flag, nor the option to specify a default value. These can be specified in the GraphQL schema, and are enforced by GraphQL Java.
+====
 
 == (Dis)advantages
 
