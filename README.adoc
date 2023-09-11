@@ -142,7 +142,9 @@ These are:
 * `@MutationMapping`
 * `SubscriptionMapping`
 
-For example for our early book query we can add:
+=== Querying data
+
+For our earlier book query we can add:
 
 [code,java]
 ----
@@ -152,7 +154,20 @@ public Book bookById(@Argument String id) {
 }
 ----
 
-This makes use of the implicit mapping.
+Which makes use of the implicit mapping.
+
+Now in case of our `Book`, we'll also need to do a little bit extra. Because our `Book` itself only contains the `authorId`, but in the response we want to return the `Author` immediately, to avoid our client having to do an extra round trip, and to aggregate the data.
+
+We can resolve this by adding this to our controller:
+
+[code,java]
+----
+@SchemaMapping
+public Author author(Book book) {
+    return Author.getById(book.authorId());
+}
+----
+Which will act as the `DataFetcher` for the `Author` field.
 
 If we add the following to our schema file:
 
