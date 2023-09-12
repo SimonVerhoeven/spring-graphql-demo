@@ -117,9 +117,16 @@ to our `application.properties`.
 
 This allows us to easily interact with & develop GraphQL APIs.
 
+And since we want to use Subscriptions in GraphIQL we'll also add:
+
+[code]
+----
+spring.graphql.websocket.path=/graphql
+----
+
 image::raw/graphiql.png[]
 
-Using the default http://localhost:8080/graphiql[graphiql] path.
+Using the default http://localhost:8080/graphiql[GraphiQL] path.
 
 [NOTE]
 ====
@@ -140,7 +147,7 @@ These are:
 
 * `@QueryMapping`
 * `@MutationMapping`
-* `SubscriptionMapping`
+* `@SubscriptionMapping`
 
 === Querying data
 
@@ -168,6 +175,20 @@ public Author author(Book book) {
 }
 ----
 Which will act as the `DataFetcher` for the `Author` field.
+
+Which we can then test using the following query in GraphiQL:
+[code]
+----
+{
+ authorById(id: "a535fe2f-7d06-41bd-bbff-c802e42a8b06") {
+   id
+   firstName
+   lastName
+   shortBio
+   linkedinUrl
+ }
+}
+----
 
 If we add the following to our schema file:
 
@@ -227,7 +248,70 @@ As you can see, our inputs are annotated with `@Argument`.
 [NOTE]
 ====
 `@Argument` does not have a `required` flag, nor the option to specify a default value. These can be specified in the GraphQL schema, and are enforced by GraphQL Java.
+
+If the distinction  between `Null` and Omitted is important, one can instead declare an `ArgumentValue` parameter which is a container for the resulting value alongside a flag to indicate whether the input was omitted.
 ====
+
+We can then create a new one using:
+
+[code]
+----
+mutation addAuthor {
+    addAuthor(
+      firstName: "Venkat"
+      lastName: "Subramaniam"
+      shortBio: "Venkat Subramaniam is an award-winning author, founder of Agile Developer, Inc., and an instructional professor at the University of Houston."
+    ) {
+        id
+      firstName
+      lastName
+    }
+}
+----
+
+=== Subscriptions
+
+In case we want to stay up to date, we can also set up a subscription.
+
+[NOTE]
+====
+Keep in mind that we need WebSocket/RSocket transports for this support.
+====
+
+Say we want to get a stream of new books we can add this to our schema:
+
+[code]
+----
+type Subscription {
+  notifyNewBook: Book
+}
+----
+
+Then in our controller we can add:
+
+[code,java]
+----
+@SubscriptionMapping("notifyNewBook")
+public Flux<Book> newBooks() {
+...
+}
+----
+
+And we'll get an incoming stream of new books.
+
+We can just do:
+
+[code]
+----
+subscription {
+  notifyNewBook {
+    id
+    isbn
+    name
+  }
+}
+----
+
 
 == (Dis)advantages
 

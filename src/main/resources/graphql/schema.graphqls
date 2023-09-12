@@ -3,12 +3,17 @@ type Query {
   authorById(id: ID): Author
 }
 
+type Subscription {
+  notifyNewBook: Book
+}
+
 type Mutation {
   addAuthor(firstName: String!, lastName: String!, shortBio: String!): Author
 }
 
 type Book {
   id: ID
+  isbn: String!
   name: String!
   pageCount: Int
   summary: String
