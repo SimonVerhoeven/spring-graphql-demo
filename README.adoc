@@ -312,6 +312,20 @@ subscription {
 }
 ----
 
+== Testing
+
+So it's quite easy to set up our GraphQL API, but what about the testing?
+Spring makes it easy for us to test our application using `GraphQLTester` which offers us an easy way to test agnostic of the underlying transport.
+
+[NOTE]
+====
+For perform requests through a client we need one of the following extensions: HttpGraphQLTester/WebSocketGraphQLTester/RSocketGraphQLTester
+For perform server side testing without a client we need either the ExecutionGraphQLServiceTester or WebGraphQLServiceTester extension.
+====
+
+It offers us a fluent API to write our test.
+
+We can pass in a document (thank you text blocks!), or pass in a document filename ending with `.graphql` or `.gql` under `graphql-test/` in our `resources` folder.
 
 == (Dis)advantages
 
