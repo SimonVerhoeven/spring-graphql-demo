@@ -327,7 +327,7 @@ It offers us a fluent API to write our test.
 
 We can pass in a document (thank you text blocks!), or pass in a document filename ending with `.graphql` or `.gql` under `graphql-test/` in our `resources` folder.
 
-=== Testing a request
+=== Testing a request/
 
 Let's start with a basic request test, where we check the expected output. (we could also )
 
@@ -348,6 +348,19 @@ void bookById() {
 . passing in the variable we want to use for the call
 . in case your request has no response data use `executeAndVerify` rather than `execute` to check whether there were no errors in the response, or `executeSubscription` for Subscriptions.
 
+=== Testing a mutation
+
+The flow for a mutation is basically the same as for a query:
+
+[code,java]
+----
+final Author author = this.graphQlTester
+        .document(document)
+        .execute()
+        .path("addAuthor")
+        .entity(Author.class)
+        .get();
+----
 
 == (Dis)advantages
 
