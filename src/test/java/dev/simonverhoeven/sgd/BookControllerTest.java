@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import reactor.test.StepVerifier;
 
 @GraphQlTest(BookController.class)
 public class BookControllerTest {
@@ -60,6 +61,27 @@ public class BookControllerTest {
                 .execute()
                 .path("bookById")
                 .matchesJson(CLEAN_CODE_PAYLOAD);
+    }
+
+    @Test
+    void newBooks() {
+        final String document = """
+                subscription {
+                  notifyNewBook {
+                    id
+                    isbn
+                    name
+                  }
+                }
+                """;
+
+        final var bookFlux = this.graphQlTester.document(document)
+                .executeSubscription()
+                .toFlux("notifyNewBook", Book.class);
+
+        StepVerifier.create(bookFlux)
+                .expectNextCount(9)
+                .verifyComplete();
     }
 
 }

@@ -362,6 +362,42 @@ final Author author = this.graphQlTester
         .get();
 ----
 
+
+=== Testing a subscription
+
+Subscriptions are a bit different in that we invoke `executeSubscription` instead of `execute` and then use `StepVerifier` to inspect the Flux.
+
+To start of we'll need to add the `reactor-test` dependency:
+
+[code,xml]
+----
+<dependency>
+    <groupId>io.projectreactor</groupId>
+    <artifactId>reactor-test</artifactId>
+    <version>3.5.10</version>
+    <scope>test</scope>
+</dependency>
+
+----
+
+Then we can get our Flux using:
+
+[code,java]
+----
+final var bookFlux = this.graphQlTester.document(document)
+    .executeSubscription()
+    .toFlux("notifyNewBook", Book.class);
+----
+
+And let's add an easy to test to check we receive Kent Beck's 9 books. (the API itself offers us a lot more options!)
+
+[code,java]
+----
+final var bookFlux = this.graphQlTester.document(document)
+    .executeSubscription()
+    .toFlux("notifyNewBook", Book.class);
+----
+
 == (Dis)advantages
 
 GraphQL has its advantages, and disadvantages over REST, and one can even use both in the sample application.

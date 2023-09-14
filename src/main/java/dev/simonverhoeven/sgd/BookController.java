@@ -37,7 +37,7 @@ public class BookController {
                         new Book("c8d7c976-df23-4d7f-bace-ef74dc0af08b", "978-0321336382", "Refactoring: Improving the Design of Existing Code", 464, "A classic on improving code design through refactoring.", "June 25, 1999", "a535fe2f-7d06-41bd-bbff-c802e42a8b06"),
                         new Book("dc49936f-29e9-494f-a7d3-5591ed99c006", "978-0201710915", "Contributing to Eclipse: Principles, Patterns, and Plug-Ins", 384, "Guidance on contributing to the Eclipse platform.", "April 8, 2003", "a535fe2f-7d06-41bd-bbff-c802e42a8b06")
                 )
-        ).delayElements(Duration.ofSeconds(20));
+        ).delayElements(Duration.ofSeconds(2));
 
     }
 }
