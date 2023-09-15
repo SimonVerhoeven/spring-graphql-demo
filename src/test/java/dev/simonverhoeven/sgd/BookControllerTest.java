@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import reactor.test.StepVerifier;
 
+import java.util.Objects;
+
 @GraphQlTest(BookController.class)
 public class BookControllerTest {
     public static final String CLEAN_CODE_PAYLOAD = """
@@ -61,6 +63,19 @@ public class BookControllerTest {
                 .execute()
                 .path("bookById")
                 .matchesJson(CLEAN_CODE_PAYLOAD);
+    }
+
+    @Test
+    void bookById_verify() {
+        this.graphQlTester
+                .documentName("bookInfo")
+                .variable("id", "a8950574-a399-4f42-a168-31f59c0079a5")
+                .execute()
+                .errors()
+                .verify()
+                .path("data.bookById.name")
+                .entity(String.class)
+                .isEqualTo("Clean Code");
     }
 
     @Test

@@ -398,6 +398,66 @@ final var bookFlux = this.graphQlTester.document(document)
     .toFlux("notifyNewBook", Book.class);
 ----
 
+=== Handling errors
+
+If we use verify, any errors in the "errors" key will lead to an Assertion failure.
+
+For example with this test case:
+
+[code,java]
+----
+@Test
+void bookById_verify() {
+    this.graphQlTester
+            .documentName("bookInfo")
+            .variable("id", "a8950574-a399-4f42-a168-31f59c0079a5")
+            .execute()
+            .errors()
+            .verify()
+            .path("data.bookById.name")
+            .entity(String.class)
+            .isEqualTo("Clean Code");
+}
+----
+
+If we want to suppress specific error(s) we can filter these out using:
+
+[code,java]
+----
+
+.errors()
+.filter(error -> ...)
+.path("data.bookById.name")
+----
+
+We can also apply this filtering on the builder level, so they apply to all our tests using:
+
+[code,java]
+----
+WebGraphQlTester.builder(client)
+    .errorFilter(error -> ...)
+    .build()
+----
+
+Additionally, we can also inspect the errors through a `Consumer` using `satisfy`, which will also mark them as filtered so that we can inspect the data in the response.
+
+[code,java]
+----
+.errors()
+.satisfy(responseErrors -> ...)
+.verify()
+----
+
+The other way around, in case we want to verify that an error exists we can use `expect` instead.
+This will lead to an assertion error if the expected error is not present.
+
+[code,java]
+----
+.errors()
+.expect(error -> ...)
+.verify()
+----
+
 == (Dis)advantages
 
 GraphQL has its advantages, and disadvantages over REST, and one can even use both in the sample application.

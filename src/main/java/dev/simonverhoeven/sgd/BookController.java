@@ -9,12 +9,14 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Controller
 public class BookController {
     @QueryMapping
     public Book bookById(@Argument String id) {
+        if ("raiseException".equalsIgnoreCase(id)) {
+            throw new IllegalArgumentException("Raise exception for demo purposes");
+        }
         return Book.getById(id);
     }
 
