@@ -7,16 +7,16 @@
 
 == Introduction
 
-In this demo we'll take an introductionary look at how we can use Spring GraphQL in our Java applications.
+In this demo, we'll take an introductory look at how we can use Spring GraphQL in our Java applications.
 GraphQL is a query language (hence the QL) that in conjunction with a framework such as `Spring GraphQL` can be used to efficiently manage our data, and even reuse existing services.
 
 It has 2 core concepts:
 
-. queries: used for to define which data should be fetched, and which fields thereof should be included
+. queries: used to define which data should be fetched, and which fields thereof should be included
 . mutations: used to manage our dataset
 
 It's an alternative to REST, SOAP, or gRPC, and supports calls over HTTP, WebSocket and RSocket.
-We can use it to query & mutate our data, and in case of Spring Webflux/WebSocket/RSocket to set up subscriptions.
+We can use it to query & mutate our data, and in the case of Spring Webflux/WebSocket/RSocket to set up subscriptions.
 
 [NOTE]
 ====
@@ -94,7 +94,7 @@ type Author {
 
 We define a top-level `Query` type (every GraphQL service has to have one, mutations are optional), which contains the exposed operations and its arguments. Here we can see we're exposing a `bookById` query which expects an `ID` to be passed in, and will return a `Book` type.
 
-Below that we can see our `Book` and `Author` type with their fields. In this case we're using the default scalar types, and the `!` mark the fields as non-null.
+Below that we can see our `Book` and `Author` type with their fields. In this case, we're using the default scalar types, and the `!` marks the fields as non-null.
 
 More information on how to define a `Schema` can be found on the https://graphql.org/learn/schema/[GraphQL schema] page.
 
@@ -102,7 +102,7 @@ More information on how to define a `Schema` can be found on the https://graphql
 ====
 * We can change the supported file type(s) by changing: `spring.graphql.schema.file-extensions`
 * The default schema location can be adapted using `spring.graphql.schema.locations`, we can even include files in our dependencies by using the `classpath*:` prefix
-* field introspection is enabled by default, since tools like GraphiQL require it. If you do not want to expose your schema, set `spring.graphql.schema.introspection.enabled` to `false`
+* field introspection is enabled by default since tools like GraphiQL require it. If you do not want to expose your schema, set `spring.graphql.schema.introspection.enabled` to `false`
 ====
 
 === Properties
@@ -135,7 +135,7 @@ This can be adapted by configuring `spring.graphql.path`
 
 === Registering extra scalar types
 
-In some cases you might need more than the default Scalar types that we mentioned earlier.
+In some cases, you might need more than the default Scalar types that we mentioned earlier.
 
 Let us add a simple Article:
 
@@ -172,7 +172,7 @@ public RuntimeWiringConfigurer runtimeWiringConfigurer() {
 }
 ----
 
-And finally also add this Scalar to our `schema.graphqls`
+And finally, also add this Scalar to our `schema.graphqls`
 
 [code]
 ----
@@ -200,7 +200,7 @@ These are:
 
 === Querying data
 
-For our earlier book query we can add:
+For our earlier book query, we can add:
 
 [code,java]
 ----
@@ -212,7 +212,7 @@ public Book bookById(@Argument String id) {
 
 Which makes use of the implicit mapping.
 
-Now in case of our `Book`, we'll also need to do a little bit extra. Because our `Book` itself only contains the `authorId`, but in the response we want to return the `Author` immediately, to avoid our client having to do an extra round trip, and to aggregate the data.
+Now in the case of our `Book`, we'll also need to do a little bit extra. Because our `Book` itself only contains the `authorId`, but in the response we want to return the `Author` immediately, to avoid our client having to do an extra round trip, and to aggregate the data.
 
 We can resolve this by adding this to our controller:
 
@@ -258,7 +258,7 @@ public Author findAuthor(@Argument String id) {
 
 Note that here we've explicitly added `authorById` to our `@QueryMapping`
 
-While both approaches are valid, the value annotation does encourage a higher level of abstraction, and leaves us free to rename our method names without breaking the integration.
+While both approaches are valid, the value annotation does encourage a higher level of abstraction and leaves us free to rename our method names without breaking the integration.
 
 === Mutations
 
@@ -336,7 +336,7 @@ type Subscription {
 }
 ----
 
-Then in our controller we can add:
+Then in our controller, we can add:
 
 [code,java]
 ----
@@ -368,8 +368,8 @@ Spring makes it easy for us to test our application using `GraphQLTester` which 
 
 [NOTE]
 ====
-For perform requests through a client we need one of the following extensions: HttpGraphQLTester/WebSocketGraphQLTester/RSocketGraphQLTester
-For perform server side testing without a client we need either the ExecutionGraphQLServiceTester or WebGraphQLServiceTester extension.
+To perform requests through a client we need one of the following extensions: HttpGraphQLTester/WebSocketGraphQLTester/RSocketGraphQLTester
+To perform server-side testing without a client we need either the ExecutionGraphQLServiceTester or WebGraphQLServiceTester extension.
 ====
 
 It offers us a fluent API to write our test.
@@ -416,7 +416,7 @@ final Author author = this.graphQlTester
 
 Subscriptions are a bit different in that we invoke `executeSubscription` instead of `execute` and then use `StepVerifier` to inspect the Flux.
 
-To start of we'll need to add the `reactor-test` dependency:
+To start we'll need to add the `reactor-test` dependency:
 
 [code,xml]
 ----
@@ -438,7 +438,7 @@ final var bookFlux = this.graphQlTester.document(document)
     .toFlux("notifyNewBook", Book.class);
 ----
 
-And let's add an easy to test to check we receive Kent Beck's 9 books. (the API itself offers us a lot more options!)
+And let's add an easy-to-test to check we received Kent Beck's 9 books. (the API itself offers us a lot more options!)
 
 [code,java]
 ----
@@ -515,7 +515,7 @@ Advantages:
 
 * flexible: the client can specify the required fields
 * higher decoupling from API changes
-* less expensive operations (reduced payload size, and data can be aggregated so less round trips)
+* less expensive operations (reduced payload size and data can be aggregated so fewer round trips)
 * high discoverability given the APIs are introspectable, so clients can query the schema to find the available types & fields
 * real-time data using subscriptions, without the need for polling
 
@@ -524,9 +524,9 @@ Disadvantages:
 * no native file upload support
 * no native support for web caching
 * harder to cache given its flexible nature
-* the flexible nature can also lead to complexity in managing the schema, and efficient query resolution
+* the flexible nature can also lead to complexity in managing the schema and efficient query resolution
 
-In case of data flexibility is needed/over-under-fetching is an issue/real time data is needed/mobile use-cases GraphQL is a good fit.
+In case of data flexibility is needed/over-under-fetching is an issue/real-time data is needed/mobile use-cases GraphQL is a good fit.
 However, if the data structure is stable, caching is critical, resource-based models or simple CRUD calls there's certainly nothing wrong with rest.
 
 At the end of the day you need to evaluate which fits your use-cases the best, and maybe even use a mix of both.
