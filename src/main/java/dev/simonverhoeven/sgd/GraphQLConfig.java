@@ -7,10 +7,17 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
 @Configuration
 public class GraphQLConfig {
+//    private static final Logger log = LoggerFactory.getLogger(GraphQLConfig.class);
+
 
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return runtimeWiringConfigurer -> runtimeWiringConfigurer
                 .scalar(ExtendedScalars.Date);
     }
+
+//    @Bean
+//    GraphQlSourceBuilderCustomizer inspectionCustomizer() {
+//        return schemaResourceBuilder -> schemaResourceBuilder.inspectSchemaMappings(reportConsumer -> log.info(reportConsumer.toString()));
+//    }
 }

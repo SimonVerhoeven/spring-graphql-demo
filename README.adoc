@@ -533,6 +533,41 @@ At the end of the day you need to evaluate which fits your use-cases the best, a
 
 == Extra
 
+=== Introspection report - detect mismatches
+
+We can make use of this report to easily detect whether all our schema fields have corresponding data fetchers.
+
+To enable it we'll need to enable introspection in our application.properties
+
+[code]
+----
+spring.graphql.schema.introspection.enabled
+----
+
+And add a bean to our configuration to handle the reporting, for example to log it:
+
+[code,java]
+----
+@Bean
+GraphQlSourceBuilderCustomizer inspectionCustomizer() {
+    return schemaResourceBuilder -> schemaResourceBuilder.inspectSchemaMappings(reportConsumer -> log.info(reportConsumer.toString()));
+}
+----
+
+When we then start our application we'll get a report akin to the following in our console:
+
+[code]
+----
+Unmapped fields: {}
+Unmapped registrations: {}
+Skipped types: []
+----
+
+[WARNING]
+====
+Introspected should be disabled in production as it exposes quite a bit of information about your API which might not be desireable.
+====
+
 === File uploads
 
 Whilst the GraphQL protocol is focused on textual data, there is the informal https://github.com/jaydenseric/graphql-multipart-request-spec[graphql-multipart-request-spec] which allows file upload over HTTP. Keep in mind that this does lead to certain issues as documented on the https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/[Appolo GraphQL blog]. If you would like to use the spec in your application you can do so using: https://github.com/nkonev/multipart-spring-graphql[multipart-spring-graphql]
