@@ -7,7 +7,7 @@
 
 == Introduction
 
-In this demo we'll take a look at how we can use Spring GraphQL in our Java applications.
+In this demo we'll take an introductionary look at how we can use Spring GraphQL in our Java applications.
 GraphQL is a query language (hence the QL) that in conjunction with a framework such as `Spring GraphQL` can be used to efficiently manage our data, and even reuse existing services.
 
 It has 2 core concepts:
@@ -133,9 +133,57 @@ Using the default http://localhost:8080/graphiql[GraphiQL] path.
 This can be adapted by configuring `spring.graphql.path`
 ====
 
+=== Registering extra scalar types
+
+In some cases you might need more than the default Scalar types that we mentioned earlier.
+
+Let us add a simple Article:
+
+[code]
+----
+type Article {
+  id: ID
+  title: String!
+  publicationDate: Date!
+}
+----
+
+As you can see our `publicationDate` is of type `Date` which is not known by default.
+
+To resolve this we can add the `graphql-java-extended-scalars` dependency to our project,
+
+[code,xml]
+----
+<dependency>
+    <groupId>com.graphql-java</groupId>
+    <artifactId>graphql-java-extended-scalars</artifactId>
+    <version>21.0</version>
+</dependency>
+----
+
+and then we can add the following to our `@Configuration` to register the `Date` scalar:
+
+[code,java]
+----
+@Bean
+public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+    return runtimeWiringConfigurer -> runtimeWiringConfigurer
+            .scalar(ExtendedScalars.Date);
+}
+----
+
+And finally also add this Scalar to our `schema.graphqls`
+
+[code]
+----
+scalar Date @specifiedBy(url:"https://tools.ietf.org/html/rfc3339")
+----
+
+And then when we query for this Article, we'll get our `publicationDate` back properly.
+
 == Controller configuration
 
-Spring for GraphCL allows us to define handler methods using annotations in `@Controller` components.
+Spring for GraphQL allows us to define handler methods using annotations in `@Controller` components.
 The handler methods are registered as `DataFetcher` s through `RuntimeWiring.builder`.
 Since we're using the Spring boot starter, we don't need to do anything special, but if you're not you'll need to add this `RuntimeWiringConfiguration` to `GraphQLSource.Builder`. (https://docs.spring.io/spring-boot/docs/3.1.1/reference/html/web.html#web.graphql.runtimewiring[see for reference])
 
@@ -148,6 +196,7 @@ These are:
 * `@QueryMapping`
 * `@MutationMapping`
 * `@SubscriptionMapping`
+
 
 === Querying data
 

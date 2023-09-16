@@ -1,6 +1,7 @@
 type Query {
   bookById(id: ID): Book
   authorById(id: ID): Author
+  getLatestArticle: Article
 }
 
 type Subscription {
@@ -27,4 +28,12 @@ type Author {
   lastName: String!
   shortBio: String!
   linkedinUrl: String!
+}
+
+scalar Date @specifiedBy(url:"https://tools.ietf.org/html/rfc3339")
+
+type Article {
+  id: ID
+  title: String!
+  publicationDate: Date!
 }

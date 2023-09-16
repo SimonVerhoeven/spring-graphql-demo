@@ -6,8 +6,6 @@ import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import reactor.test.StepVerifier;
 
-import java.util.Objects;
-
 @GraphQlTest(BookController.class)
 public class BookControllerTest {
     public static final String CLEAN_CODE_PAYLOAD = """
