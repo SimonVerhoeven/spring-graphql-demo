@@ -484,9 +484,21 @@ At the end of the day you need to evaluate which fits your use-cases the best, a
 
 == Extra
 
+=== File uploads
+
 Whilst the GraphQL protocol is focused on textual data, there is the informal https://github.com/jaydenseric/graphql-multipart-request-spec[graphql-multipart-request-spec] which allows file upload over HTTP. Keep in mind that this does lead to certain issues as documented on the https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/[Appolo GraphQL blog]. If you would like to use the spec in your application you can do so using: https://github.com/nkonev/multipart-spring-graphql[multipart-spring-graphql]
+
+=== Data access
+
+GraphQL isn't tied to a specific database/storage engine. However, there are certainly a lot of interesting & convenient things to be done using the https://docs.spring.io/spring-data/commons/docs/current/reference/html/#core.extensions[Spring data QueryDSL extension].
+It allows us a flexible and typesafe approach for our query predicates.
+
+Spring Data allows us to use our QueryDSL/Query by Example repositories for a `DataFetcher`, which will build a QueryDSL `Predicate` from GraphQL arguments. We can also to mark our repositories with `@GraphQlRepository` for automated detection and GraphQL Query registration.
 
 == References
 
+* https://graphql.org/[GraphQL]
+
+* https://querydsl.com/[Querydsl]
 * https://spring.io/projects/spring-graphql[Spring for GraphQL project]
 * https://github.com/SimonVerhoeven/spring-graphql-demo[Demo repository]
